@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  users_service:
+    build: ./user-service
+    ports:
+      - "5000:5000"
+    networks:
+      - monitoring
+
+  items_service:
+    build: ./product-service
+    ports:
+      - "5001:5001"
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
